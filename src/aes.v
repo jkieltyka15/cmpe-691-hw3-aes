@@ -43,5 +43,27 @@ function reg[`NIBBLE] ascii_to_hex(input reg[`BYTE] ascii);
     end
 endfunction
 
+/**
+ * Perform an XOR when both operatees are one byte.
+ * 
+ * @param byte_a - The first operatee of the XOR.
+ * @param byte_b - The second operatee of the XOR. 
+ *
+ * @return The result of byte_a XOR byte_b.
+ */
+function reg[`BYTE] byte_xor_byte(input reg[`BYTE] byte_a, input reg[`BYTE] byte_b);
+    begin
+
+        reg[`BYTE] result;
+
+        for (integer i = 0; `BYTE_SIZE > i; i++) begin
+            result[i] = byte_a[i] ^ byte_b[i];
+        end
+
+        return result;
+
+    end
+endfunction
+
 
 `endif // _AES_V_
