@@ -14,8 +14,9 @@
 `define BYTE_BLOCK 31:0
 
 // numerical constants
-`define BLOCK_BIT_LEN  128
-`define BLOCK_BYTE_LEN 16
-`define MAX_NUM_KEYS   10
+`define BLOCK_BIT_SIZE  128
+`define BLOCK_BYTE_SIZE 16
+`define NUM_KEYS        10
+`define BYTE_SIZE       8
 
 `endif // _CONSTANTS_V_

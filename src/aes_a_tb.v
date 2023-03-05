@@ -39,35 +39,24 @@ module vtc_encryption_tb();
 
         // get the key
         buffer[`BYTE] = $fgetc(in_file);
-        for (integer i = 0; `BLOCK_BIT_LEN > i; i++) begin
+        for (integer i = 0; `BLOCK_BIT_SIZE > i; i++) begin
             buffer[`BYTE] = $fgetc(in_file);
             key_str[i] = buffer[`BYTE];
         end
 
         // get the plaintext
         buffer[`BYTE] = $fgetc(in_file);
-        for (integer i = 0; `BLOCK_BIT_LEN > i; i++) begin
+        for (integer i = 0; `BLOCK_BIT_SIZE > i; i++) begin
             buffer[`BYTE] = $fgetc(in_file);
             plaintext_str[i] = buffer[`BYTE];
         end
 
-        // printout hex value
-        $display("%x", ascii_to_hex("0"));
-        $display("%x", ascii_to_hex("1"));
-        $display("%x", ascii_to_hex("2"));
-        $display("%x", ascii_to_hex("3"));
-        $display("%x", ascii_to_hex("4"));
-        $display("%x", ascii_to_hex("5"));
-        $display("%x", ascii_to_hex("6"));
-        $display("%x", ascii_to_hex("7"));
-        $display("%x", ascii_to_hex("8"));
-        $display("%x", ascii_to_hex("9"));
-        $display("%x", ascii_to_hex("a"));
-        $display("%x", ascii_to_hex("b"));
-        $display("%x", ascii_to_hex("c"));
-        $display("%x", ascii_to_hex("d"));
-        $display("%x", ascii_to_hex("e"));
-        $display("%x", ascii_to_hex("f"));
+        // test xor
+        $display("%b", byte_xor_byte(8'hff, 8'h00));
+        $display("%b", byte_xor_byte(8'h0f, 8'hf0));
+        $display("%b", byte_xor_byte(8'hff, 8'hff));
+        $display("%b", byte_xor_byte(8'h1, 8'h6));
+        $display("%b", byte_xor_byte(8'h1, 8'h7));
 
         // close in and out text files
         $fclose(in_file);
