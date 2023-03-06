@@ -14,7 +14,7 @@
  */
 
 `include "constants.v"
-`include "aes.v"
+`include "hex.v"
 
 module vtc_encryption_tb();
 
@@ -70,8 +70,37 @@ module vtc_encryption_tb();
             for (integer j = 0; `ROW_SIZE > j; j++) begin
                 buffer[7:4] = ascii_to_hex(plaintext_str[iterator++]);
                 buffer[3:0] = ascii_to_hex(plaintext_str[iterator++]);
-                key[j][i] = buffer;
+                plaintext[j][i] = buffer;
             end
+        end
+
+        // write out the plaintext before shift
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            for (integer j = 0; `COL_SIZE > j; j++) begin
+                $write("%x ", plaintext[i][j]);
+            end
+            $write("\n");
+        end
+        $write("\n");
+        $write("\n");
+
+        // perform an AES row shift
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            for (integer j = 0; j < i; j++) begin
+                buffer = plaintext[i][0];
+                plaintext[i][0] = plaintext[i][1];
+                plaintext[i][1] = plaintext[i][2];
+                plaintext[i][2] = plaintext[i][3];
+                plaintext[i][3] = buffer;
+            end
+        end
+
+        // write out the plaintext after shift
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            for (integer j = 0; `COL_SIZE > j; j++) begin
+                $write("%x ", plaintext[i][j]);
+            end
+            $write("\n");
         end
 
         // close in and out text files

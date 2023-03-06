@@ -1,11 +1,11 @@
 /**
- * File: aes.v
+ * File: hex.v
  *
- * Contains functions used for AES encryption and decryption.
+ * Contains functions used for hex number operations.
  */
 
-`ifndef _AES_V_
-`define _AES_V_
+`ifndef _HEX_V_
+`define _HEX_V_
 
 `include "constants.v"
 
@@ -66,4 +66,4 @@ function reg[`BYTE] byte_xor_byte(input reg[`BYTE] byte_a, input reg[`BYTE] byte
 endfunction
 
 
-`endif // _AES_V_
+`endif // _HEX_V_
