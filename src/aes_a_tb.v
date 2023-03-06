@@ -15,6 +15,7 @@
 
 `include "constants.v"
 `include "hex.v"
+`include "sbox.v"
 
 module vtc_encryption_tb();
 
@@ -74,6 +75,8 @@ module vtc_encryption_tb();
             end
         end
 
+////////////////////////////////////////////////////////////////////////////////// encryption/decryption begins        
+
         // write out the plaintext before shift
         for (integer i = 0; `ROW_SIZE > i; i++) begin
             for (integer j = 0; `COL_SIZE > j; j++) begin
@@ -102,6 +105,18 @@ module vtc_encryption_tb();
             end
             $write("\n");
         end
+        $write("\n");
+        $write("\n");
+
+        // write out the plaintext with sbox values
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            for (integer j = 0; `COL_SIZE > j; j++) begin
+                $write("%x ", sbox(plaintext[i][j]));
+            end
+            $write("\n");
+        end
+        $write("\n");
+        $write("\n");
 
         // close in and out text files
         $fclose(in_file);

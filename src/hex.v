@@ -18,7 +18,7 @@
  */
 function reg[`NIBBLE] ascii_to_hex(input reg[`BYTE] ascii);
     begin
-        reg[`BYTE] hex;
+        reg[`NIBBLE] hex;
         case(ascii)
             "f" : hex[`NIBBLE] = 4'hf;
             "e" : hex[`NIBBLE] = 4'he;

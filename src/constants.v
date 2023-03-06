@@ -16,6 +16,7 @@
 `define COL          3:0
 `define NIBBLE_BLOCK 64:0
 `define BYTE_BLOCK   31:0
+`define SBOX         254:0
 
 // numerical constants
 `define BLOCK_NIBBLE_SIZE 32
