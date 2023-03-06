@@ -14,19 +14,22 @@
  */
 
 `include "constants.v"
-`include "aes.v"
+`include "hex.v"
 
 module vtc_encryption_tb();
+
+    integer iterator = 0;
 
     reg[`BYTE] buffer;
     integer in_file;
     integer out_file;
 
+    reg[`BYTE] plaintext_str[`NIBBLE_BLOCK];
+    reg[`BYTE] key_str[`NIBBLE_BLOCK];
+
     reg encrypt_flag;
-    reg[`BYTE] plaintext_str[`BIT_BLOCK];
-    reg[`BYTE] key_str[`BIT_BLOCK];
-    reg[`BYTE] plaintext[`BYTE_BLOCK];
-    reg[`BYTE] key[`BYTE_BLOCK];
+    reg[`BYTE] plaintext[`ROW][`COL];
+    reg[`BYTE] key[`ROW][`COL];
 
     initial begin
         
@@ -39,24 +42,66 @@ module vtc_encryption_tb();
 
         // get the key
         buffer[`BYTE] = $fgetc(in_file);
-        for (integer i = 0; `BLOCK_BIT_SIZE > i; i++) begin
+        for (integer i = 0; `BLOCK_NIBBLE_SIZE > i; i++) begin
             buffer[`BYTE] = $fgetc(in_file);
             key_str[i] = buffer[`BYTE];
         end
 
         // get the plaintext
         buffer[`BYTE] = $fgetc(in_file);
-        for (integer i = 0; `BLOCK_BIT_SIZE > i; i++) begin
+        for (integer i = 0; `BLOCK_NIBBLE_SIZE > i; i++) begin
             buffer[`BYTE] = $fgetc(in_file);
             plaintext_str[i] = buffer[`BYTE];
         end
 
-        // test xor
-        $display("%b", byte_xor_byte(8'hff, 8'h00));
-        $display("%b", byte_xor_byte(8'h0f, 8'hf0));
-        $display("%b", byte_xor_byte(8'hff, 8'hff));
-        $display("%b", byte_xor_byte(8'h1, 8'h6));
-        $display("%b", byte_xor_byte(8'h1, 8'h7));
+        // place key into 4x4 byte table
+        iterator = 0;
+        for (integer i = 0; `COL_SIZE > i; i++) begin
+            for (integer j = 0; `ROW_SIZE > j; j++) begin
+                buffer[7:4] = ascii_to_hex(key_str[iterator++]);
+                buffer[3:0] = ascii_to_hex(key_str[iterator++]);
+                key[j][i] = buffer;
+            end
+        end
+
+        // place plaintext into 4x4 byte table
+        iterator = 0;
+        for (integer i = 0; `COL_SIZE > i; i++) begin
+            for (integer j = 0; `ROW_SIZE > j; j++) begin
+                buffer[7:4] = ascii_to_hex(plaintext_str[iterator++]);
+                buffer[3:0] = ascii_to_hex(plaintext_str[iterator++]);
+                plaintext[j][i] = buffer;
+            end
+        end
+
+        // write out the plaintext before shift
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            for (integer j = 0; `COL_SIZE > j; j++) begin
+                $write("%x ", plaintext[i][j]);
+            end
+            $write("\n");
+        end
+        $write("\n");
+        $write("\n");
+
+        // perform an AES row shift
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            for (integer j = 0; j < i; j++) begin
+                buffer = plaintext[i][0];
+                plaintext[i][0] = plaintext[i][1];
+                plaintext[i][1] = plaintext[i][2];
+                plaintext[i][2] = plaintext[i][3];
+                plaintext[i][3] = buffer;
+            end
+        end
+
+        // write out the plaintext after shift
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            for (integer j = 0; `COL_SIZE > j; j++) begin
+                $write("%x ", plaintext[i][j]);
+            end
+            $write("\n");
+        end
 
         // close in and out text files
         $fclose(in_file);
