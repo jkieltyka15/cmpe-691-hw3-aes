@@ -65,5 +65,18 @@ function reg[`BYTE] byte_xor_byte(input reg[`BYTE] byte_a, input reg[`BYTE] byte
     end
 endfunction
 
+function reg[`BYTE] byte_mult_byte_a(input reg[`BYTE] byte_a, input reg[`BYTE] byte_b);
+    begin
+        reg[9:0] result; 
+        result = byte_a * byte_b;
+
+        if (10'hff < result) begin
+            result = byte_xor_byte(result, 8'b00011011);
+        end
+
+        return result;
+    end
+endfunction
+
 
 `endif // _HEX_V_

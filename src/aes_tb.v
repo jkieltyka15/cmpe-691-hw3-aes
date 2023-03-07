@@ -28,7 +28,7 @@ module vtc_encryption_tb();
     reg[`BYTE] plaintext_str[`NIBBLE_BLOCK];
     reg[`BYTE] key_str[`NIBBLE_BLOCK];
 
-    reg encrypt_flag;
+    reg is_part_a;
     reg[`BYTE] plaintext[`ROW][`COL];
     reg[`BYTE] key[`ROW][`COL];
 
@@ -38,8 +38,8 @@ module vtc_encryption_tb();
         in_file = $fopen("in.txt", "r");
         out_file = $fopen("out.txt", "w");
 
-        // determine whether to encrypt or decrypt
-        encrypt_flag = (8'h30 != $fgetc(in_file));
+        // determine whether part a or part b is being tested
+        is_part_a = (8'h30 != $fgetc(in_file));
 
         // get the key
         buffer[`BYTE] = $fgetc(in_file);
@@ -75,7 +75,7 @@ module vtc_encryption_tb();
             end
         end
 
-////////////////////////////////////////////////////////////////////////////////// encryption/decryption begins        
+////////////////////////////////////////////////////////////////////////////////// encryption begins        
 
         // write out the plaintext before shift
         for (integer i = 0; `ROW_SIZE > i; i++) begin
@@ -117,6 +117,8 @@ module vtc_encryption_tb();
         end
         $write("\n");
         $write("\n");
+
+        $display("%x", byte_mult_byte_a(8'hff, 2));
 
         // close in and out text files
         $fclose(in_file);
