@@ -1,8 +1,8 @@
 /**
- * File: aes_tb.v
+ * File: aes_full_tb.v
  *
- * Contains the testbench for testing AES encryption
- * for Part A and Part B.
+ * Contains the testbench for testing full AES encryption
+ * for extra credit.
  *
  * input: in.txt
  * output: out.txt
