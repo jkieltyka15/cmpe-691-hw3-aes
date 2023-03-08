@@ -69,12 +69,14 @@ endfunction
  * Perform multiplication on two bytes when the second byte is equal
  * to or less than 3.
  * 
+ * @param ip_sel - When one f(x) = x^8 + x^4 + x^3 + x + 1 is used.
+                   Otherwise f(x) = x^7 + x^5 + x^3 + 1 is used.
  * @param byte_a - The first factor.
  * @param byte_b - The second factor that is equal to or less than 3.
  *
  * @return The result of byte_a multiplied by byte_b.
  */
-function reg[`BYTE] byte_mult_byte_a(input reg[`BYTE] byte_a, input reg[`BYTE] byte_b);
+function reg[`BYTE] byte_mult_byte_a(input reg ip_sel, input reg[`BYTE] byte_a, input reg[`BYTE] byte_b);
     begin
         reg[9:0] result; 
         result = byte_a * byte_b;
@@ -86,7 +88,12 @@ function reg[`BYTE] byte_mult_byte_a(input reg[`BYTE] byte_a, input reg[`BYTE] b
 
             // apply GF
             if (1'h1 == result[8]) begin
-                result = byte_xor_byte(result, 8'b00011011);
+                if (1'h1 == ip_sel) begin
+                    result = byte_xor_byte(result, 8'b00011011);
+                end
+                else begin
+                    result = byte_xor_byte(result, 8'b10101001);
+                end
             end
 
             // byte b is 3
