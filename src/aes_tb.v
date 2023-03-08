@@ -184,8 +184,38 @@ module vtc_encryption_tb();
         end
 
         // perform AES key XOR
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            for (integer j = 0; `COL_SIZE > j; j++) begin
+                plaintext[i][j] = byte_xor_byte(plaintext[i][j], key_0[i][j]);
+            end
+        end   
 
 //////////////////////////////////////////////////////////////////////////////////////////// ROUND 10
+
+    // perform sbox conversion
+    for (integer i = 0; `ROW_SIZE > i; i++) begin
+        for (integer j = 0; `COL_SIZE > j; j++) begin
+            plaintext[i][j] = sbox(plaintext[i][j]);
+        end
+    end
+
+    // perform an AES row shift
+    for (integer i = 0; `ROW_SIZE > i; i++) begin
+        for (integer j = 0; j < i; j++) begin
+            buffer = plaintext[i][0];
+            plaintext[i][0] = plaintext[i][1];
+            plaintext[i][1] = plaintext[i][2];
+            plaintext[i][2] = plaintext[i][3];
+            plaintext[i][3] = buffer;
+        end
+    end
+
+    // perform AES key XOR
+    for (integer i = 0; `ROW_SIZE > i; i++) begin
+        for (integer j = 0; `COL_SIZE > j; j++) begin
+            plaintext[i][j] = byte_xor_byte(plaintext[i][j], key[i][j]);
+        end
+    end
 
 
 //****************************************************************************************** AES END
