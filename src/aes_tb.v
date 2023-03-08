@@ -116,17 +116,17 @@ module vtc_encryption_tb();
 
         // calculate w5
         for (integer i = 0; `ROW_SIZE > i; i++) begin
-            key[i][0] = byte_xor_byte(key[i][0], key[i][1]);
+            key[i][1] = byte_xor_byte(key[i][0], key[i][1]);
         end
 
         // calculate w6
         for (integer i = 0; `ROW_SIZE > i; i++) begin
-            key[i][0] = byte_xor_byte(key[i][1], key[i][2]);
+            key[i][2] = byte_xor_byte(key[i][1], key[i][2]);
         end
 
         // calculate w7
         for (integer i = 0; `ROW_SIZE > i; i++) begin
-            key[i][0] = byte_xor_byte(key[i][2], key[i][3]);
+            key[i][3] = byte_xor_byte(key[i][2], key[i][3]);
         end
 
 //////////////////////////////////////////////////////////////////////////////////////////// ROUND 9
