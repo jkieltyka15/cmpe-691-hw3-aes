@@ -36,7 +36,8 @@ module vtc_encryption_tb();
     reg[`BYTE] z[`ROW];
 
     // used for key generation
-    reg[`BYTE] key[`ROW][`ROW];
+    reg[`BYTE] key[`ROW][`COL];
+    reg[`BYTE] g[`COL];
     reg[`BYTE] rc;
 
     initial begin
@@ -87,7 +88,46 @@ module vtc_encryption_tb();
 
 //////////////////////////////////////////////////////////////////////////////////////////// KEY GENERATION
 
+        // set RC values
+        if (1'h1 == is_part_a) begin
+            rc = 8'b00110110;
+        end
+        else begin
+            rc = 8'b0; /* TODO */
+        end
 
+        // place the zeroeth key into w
+        for (integer i = 0; `COL_SIZE > i; i++) begin
+            for (integer j = 0; `ROW_SIZE > j; j++) begin
+                key[j][i] = key_0[j][i];
+            end
+        end
+
+        // calculate g
+        g[0] = byte_xor_byte(sbox(key[1][3]), rc);
+        g[1] = sbox(key[2][3]);
+        g[2] = sbox(key[3][3]);
+        g[3] = sbox(key[0][3]);
+
+        // calculate w4
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            key[i][0] = byte_xor_byte(g[i], key[i][0]);
+        end
+
+        // calculate w5
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            key[i][0] = byte_xor_byte(key[i][0], key[i][1]);
+        end
+
+        // calculate w6
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            key[i][0] = byte_xor_byte(key[i][1], key[i][2]);
+        end
+
+        // calculate w7
+        for (integer i = 0; `ROW_SIZE > i; i++) begin
+            key[i][0] = byte_xor_byte(key[i][2], key[i][3]);
+        end
 
 //////////////////////////////////////////////////////////////////////////////////////////// ROUND 9
 

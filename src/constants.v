@@ -21,7 +21,7 @@
 // numerical constants
 `define BLOCK_NIBBLE_SIZE 32
 `define BLOCK_BYTE_SIZE   16
-`define NUM_KEYS          10
+`define NUM_KEYS          11
 `define BYTE_SIZE         8
 `define ROW_SIZE          4
 `define COL_SIZE          4
