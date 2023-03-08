@@ -30,7 +30,14 @@ module vtc_encryption_tb();
 
     reg is_part_a;
     reg[`BYTE] plaintext[`ROW][`COL];
-    reg[`BYTE] key[`ROW][`COL];
+    reg[`BYTE] key_0[`ROW][`COL];
+
+    // used for column mixing
+    reg[`BYTE] z[`ROW];
+
+    // used for key generation
+    reg[`BYTE] key[`ROW][`ROW];
+    reg[`BYTE] rc;
 
     initial begin
         
@@ -61,7 +68,7 @@ module vtc_encryption_tb();
             for (integer j = 0; `ROW_SIZE > j; j++) begin
                 buffer[7:4] = ascii_to_hex(key_str[iterator++]);
                 buffer[3:0] = ascii_to_hex(key_str[iterator++]);
-                key[j][i] = buffer;
+                key_0[j][i] = buffer;
             end
         end
 
@@ -75,17 +82,21 @@ module vtc_encryption_tb();
             end
         end
 
-////////////////////////////////////////////////////////////////////////////////// encryption begins        
+//****************************************************************************************** AES BEGIN
 
-        // write out the plaintext before shift
+
+//////////////////////////////////////////////////////////////////////////////////////////// KEY GENERATION
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////// ROUND 9
+
+        // perform sbox conversion
         for (integer i = 0; `ROW_SIZE > i; i++) begin
             for (integer j = 0; `COL_SIZE > j; j++) begin
-                $write("%x ", plaintext[i][j]);
+                plaintext[i][j] = sbox(plaintext[i][j]);
             end
-            $write("\n");
         end
-        $write("\n");
-        $write("\n");
 
         // perform an AES row shift
         for (integer i = 0; `ROW_SIZE > i; i++) begin
@@ -98,27 +109,53 @@ module vtc_encryption_tb();
             end
         end
 
-        // write out the plaintext after shift
-        for (integer i = 0; `ROW_SIZE > i; i++) begin
-            for (integer j = 0; `COL_SIZE > j; j++) begin
-                $write("%x ", plaintext[i][j]);
-            end
-            $write("\n");
-        end
-        $write("\n");
-        $write("\n");
+        // perform AES column mix
+        for (integer i = 0; `COL_SIZE > i; i++) begin
 
-        // write out the plaintext with sbox values
-        for (integer i = 0; `ROW_SIZE > i; i++) begin
-            for (integer j = 0; `COL_SIZE > j; j++) begin
-                $write("%x ", sbox(plaintext[i][j]));
+            // save column into z
+            for (integer j = 0; `ROW_SIZE > j; j++) begin
+                z[j] = plaintext[j][i];
             end
-            $write("\n");
-        end
-        $write("\n");
-        $write("\n");
 
-        $display("%x", byte_mult_byte_a(8'hff, 2));
+            // calculate u0
+            plaintext[0][i] = byte_mult_byte_a(z[0], 2); 
+            plaintext[0][i] = byte_xor_byte(plaintext[0][i], byte_mult_byte_a(z[1], 3)); 
+            plaintext[0][i] = byte_xor_byte(plaintext[0][i], z[2]); 
+            plaintext[0][i] = byte_xor_byte(plaintext[0][i], z[3]);
+
+            // calculate u1
+            plaintext[1][i] = z[0];
+            plaintext[1][i] = byte_xor_byte(plaintext[1][i], byte_mult_byte_a(z[1], 2));
+            plaintext[1][i] = byte_xor_byte(plaintext[1][i], byte_mult_byte_a(z[2], 3));
+            plaintext[1][i] = byte_xor_byte(plaintext[1][i], z[3]);
+
+            // calculate u2
+            plaintext[2][i] = z[0]; 
+            plaintext[2][i] = byte_xor_byte(plaintext[2][i], z[1]);
+            plaintext[2][i] = byte_xor_byte(plaintext[2][i], byte_mult_byte_a(z[2], 2));
+            plaintext[2][i] = byte_xor_byte(plaintext[2][i], byte_mult_byte_a(z[3], 3));
+
+            // calculate u3
+            plaintext[3][i] = byte_mult_byte_a(z[0], 3);
+            plaintext[3][i] = byte_xor_byte(plaintext[3][i], z[1]); 
+            plaintext[3][i] = byte_xor_byte(plaintext[3][i], z[2]);
+            plaintext[3][i] = byte_xor_byte(plaintext[3][i], byte_mult_byte_a(z[3], 2));
+
+        end
+
+        // perform AES key XOR
+
+//////////////////////////////////////////////////////////////////////////////////////////// ROUND 10
+
+
+//****************************************************************************************** AES END
+
+        // write result to output file
+        for (integer i = 0; `COL_SIZE > i; i++) begin
+            for (integer j = 0; `ROW_SIZE > j; j++) begin
+                 $fwrite(out_file, "%x", plaintext[j][i]);
+            end
+        end
 
         // close in and out text files
         $fclose(in_file);

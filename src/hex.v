@@ -65,16 +65,38 @@ function reg[`BYTE] byte_xor_byte(input reg[`BYTE] byte_a, input reg[`BYTE] byte
     end
 endfunction
 
+/**
+ * Perform multiplication on two bytes when the second byte is equal
+ * to or less than 3.
+ * 
+ * @param byte_a - The first factor.
+ * @param byte_b - The second factor that is equal to or less than 3.
+ *
+ * @return The result of byte_a multiplied by byte_b.
+ */
 function reg[`BYTE] byte_mult_byte_a(input reg[`BYTE] byte_a, input reg[`BYTE] byte_b);
     begin
         reg[9:0] result; 
         result = byte_a * byte_b;
 
+        // irreducible polynomial required
         if (10'hff < result) begin
-            result = byte_xor_byte(result, 8'b00011011);
+
+            result = byte_a * 8'h02;
+
+            // apply GF
+            if (1'h1 == result[8]) begin
+                result = byte_xor_byte(result, 8'b00011011);
+            end
+
+            // byte b is 3
+            if (8'h03 == byte_b) begin
+                 result = byte_xor_byte(result, byte_a);
+            end
+            
         end
 
-        return result;
+        return result[7:0];
     end
 endfunction
 
