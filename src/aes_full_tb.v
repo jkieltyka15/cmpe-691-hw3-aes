@@ -146,16 +146,28 @@ module vtc_encryption_tb();
 
 //////////////////////////////////////////////////////////////////////////////////////////// ROUND 0
 
+        $display("Round 0");
+
         // perform AES key XOR
         for (integer i = 0; `ROW_SIZE > i; i++) begin
             for (integer j = 0; `COL_SIZE > j; j++) begin
                 plaintext[i][j] = byte_xor_byte(plaintext[i][j], key[0][i][j]);
             end
-        end  
+        end
+
+        $write("key xor: ");
+        for (integer i = 0; `COL_SIZE > i; i++) begin
+            for (integer j = 0; `ROW_SIZE > j; j++) begin
+                    $write("%x", plaintext[j][i]);
+            end
+        end
+        $write("\n\n");
 
 //////////////////////////////////////////////////////////////////////////////////////////// ROUNDS 1 - 9
 
         for (integer rnd = 1; `NUM_ROUNDS - 1 > rnd; rnd++) begin
+
+            $display("Round %d", rnd);
 
             // perform sbox conversion
             for (integer i = 0; `ROW_SIZE > i; i++) begin
@@ -163,6 +175,14 @@ module vtc_encryption_tb();
                     plaintext[i][j] = sbox(plaintext[i][j]);
                 end
             end
+
+            $write("sbox: ");
+            for (integer i = 0; `COL_SIZE > i; i++) begin
+                for (integer j = 0; `ROW_SIZE > j; j++) begin
+                    $write("%x", plaintext[j][i]);
+                end
+            end
+            $write("\n");
 
             // perform an AES row shift
             for (integer i = 0; `ROW_SIZE > i; i++) begin
@@ -174,6 +194,14 @@ module vtc_encryption_tb();
                     plaintext[i][3] = buffer;
                 end
             end
+
+            $write("rowshift: ");
+            for (integer i = 0; `COL_SIZE > i; i++) begin
+                for (integer j = 0; `ROW_SIZE > j; j++) begin
+                    $write("%x", plaintext[j][i]);
+                end
+            end
+            $write("\n");
 
             // perform AES column mix
             for (integer i = 0; `COL_SIZE > i; i++) begin
@@ -209,15 +237,33 @@ module vtc_encryption_tb();
 
             end
 
+            $write("column mix: ");
+            for (integer i = 0; `COL_SIZE > i; i++) begin
+                for (integer j = 0; `ROW_SIZE > j; j++) begin
+                    $write("%x", plaintext[j][i]);
+                end
+            end
+            $write("\n");
+
             // perform AES key XOR
             for (integer i = 0; `ROW_SIZE > i; i++) begin
                 for (integer j = 0; `COL_SIZE > j; j++) begin
                     plaintext[i][j] = byte_xor_byte(plaintext[i][j], key[rnd][i][j]);
                 end
             end
+
+            $write("key xor: ");
+            for (integer i = 0; `COL_SIZE > i; i++) begin
+                for (integer j = 0; `ROW_SIZE > j; j++) begin
+                    $write("%x", plaintext[j][i]);
+                end
+            end
+            $write("\n\n");
         end   
 
 //////////////////////////////////////////////////////////////////////////////////////////// ROUND 10
+
+    $display("Round 10");
 
     // perform sbox conversion
     for (integer i = 0; `ROW_SIZE > i; i++) begin
@@ -225,6 +271,14 @@ module vtc_encryption_tb();
             plaintext[i][j] = sbox(plaintext[i][j]);
         end
     end
+
+    $write("sbox: ");
+    for (integer i = 0; `COL_SIZE > i; i++) begin
+        for (integer j = 0; `ROW_SIZE > j; j++) begin
+            $write("%x", plaintext[j][i]);
+        end
+    end
+    $write("\n");
 
     // perform an AES row shift
     for (integer i = 0; `ROW_SIZE > i; i++) begin
@@ -237,12 +291,28 @@ module vtc_encryption_tb();
         end
     end
 
+    $write("rowshift: ");
+    for (integer i = 0; `COL_SIZE > i; i++) begin
+        for (integer j = 0; `ROW_SIZE > j; j++) begin
+            $write("%x", plaintext[j][i]);
+        end
+    end
+    $write("\n");
+
     // perform AES key XOR
     for (integer i = 0; `ROW_SIZE > i; i++) begin
         for (integer j = 0; `COL_SIZE > j; j++) begin
             plaintext[i][j] = byte_xor_byte(plaintext[i][j], key[10][i][j]);
         end
     end
+
+    $write("key xor: ");
+    for (integer i = 0; `COL_SIZE > i; i++) begin
+        for (integer j = 0; `ROW_SIZE > j; j++) begin
+            $write("%x", plaintext[j][i]);
+        end
+    end
+    $write("\n\n");
 
 
 //****************************************************************************************** AES END
