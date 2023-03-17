@@ -80,29 +80,6 @@ function reg[`BYTE] byte_mult_byte_a(input reg ip_sel, input reg[`BYTE] byte_a, 
     begin
         reg[`BYTE] result; 
         result = byte_a * byte_b;
-
-        // irreducible polynomial required
-        if (10'hff < result) begin
-
-            result = byte_a * 8'h02;
-
-            // apply GF
-            if (1'h1 == result[8]) begin
-                if (1'h1 == ip_sel) begin
-                    result = byte_xor_byte(result, 8'b00011011);
-                end
-                else begin
-                    result = byte_xor_byte(result, 8'b10101001);
-                end
-            end
-
-            // byte b is 3
-            if (8'h03 == byte_b) begin
-                 result = byte_xor_byte(result, byte_a);
-            end
-            
-        end
-
         return result;
     end
 endfunction
