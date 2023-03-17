@@ -158,7 +158,7 @@ module vtc_encryption_tb();
         $write("key xor: ");
         for (integer i = 0; `COL_SIZE > i; i++) begin
             for (integer j = 0; `ROW_SIZE > j; j++) begin
-                    $write("%x", plaintext[j][i]);
+                    $write("%x", plaintext[j][i][7:0]);
             end
         end
         $write("\n\n");
@@ -179,7 +179,7 @@ module vtc_encryption_tb();
             $write("sbox: ");
             for (integer i = 0; `COL_SIZE > i; i++) begin
                 for (integer j = 0; `ROW_SIZE > j; j++) begin
-                    $write("%x", plaintext[j][i]);
+                    $write("%x", plaintext[j][i][7:0]);
                 end
             end
             $write("\n");
@@ -198,7 +198,7 @@ module vtc_encryption_tb();
             $write("rowshift: ");
             for (integer i = 0; `COL_SIZE > i; i++) begin
                 for (integer j = 0; `ROW_SIZE > j; j++) begin
-                    $write("%x", plaintext[j][i]);
+                    $write("%x", plaintext[j][i][7:0]);
                 end
             end
             $write("\n");
@@ -240,7 +240,7 @@ module vtc_encryption_tb();
             $write("column mix: ");
             for (integer i = 0; `COL_SIZE > i; i++) begin
                 for (integer j = 0; `ROW_SIZE > j; j++) begin
-                    $write("%x", plaintext[j][i]);
+                    $write("%x", plaintext[j][i][7:0]);
                 end
             end
             $write("\n");
@@ -255,7 +255,7 @@ module vtc_encryption_tb();
             $write("key xor: ");
             for (integer i = 0; `COL_SIZE > i; i++) begin
                 for (integer j = 0; `ROW_SIZE > j; j++) begin
-                    $write("%x", plaintext[j][i]);
+                    $write("%x", plaintext[j][i][7:0]);
                 end
             end
             $write("\n\n");
@@ -275,7 +275,7 @@ module vtc_encryption_tb();
     $write("sbox: ");
     for (integer i = 0; `COL_SIZE > i; i++) begin
         for (integer j = 0; `ROW_SIZE > j; j++) begin
-            $write("%x", plaintext[j][i]);
+            $write("%x", plaintext[j][i][7:0]);
         end
     end
     $write("\n");
@@ -294,7 +294,7 @@ module vtc_encryption_tb();
     $write("rowshift: ");
     for (integer i = 0; `COL_SIZE > i; i++) begin
         for (integer j = 0; `ROW_SIZE > j; j++) begin
-            $write("%x", plaintext[j][i]);
+            $write("%x", plaintext[j][i][7:0]);
         end
     end
     $write("\n");
@@ -309,7 +309,7 @@ module vtc_encryption_tb();
     $write("key xor: ");
     for (integer i = 0; `COL_SIZE > i; i++) begin
         for (integer j = 0; `ROW_SIZE > j; j++) begin
-            $write("%x", plaintext[j][i]);
+            $write("%x", plaintext[j][i][7:0]);
         end
     end
     $write("\n\n");
@@ -320,7 +320,7 @@ module vtc_encryption_tb();
         // write result to output file
         for (integer i = 0; `COL_SIZE > i; i++) begin
             for (integer j = 0; `ROW_SIZE > j; j++) begin
-                 $fwrite(out_file, "%x", plaintext[j][i]);
+                 $fwrite(out_file, "%x", plaintext[j][i][7:0]);
             end
         end
 

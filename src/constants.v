@@ -9,7 +9,7 @@
 
 // standard data sizes
 `define NIBBLE     3:0
-`define BYTE       7:0
+`define BYTE       9:0
 
 // AES data sizes
 `define ROUNDS       10:0
@@ -24,7 +24,7 @@
 `define BLOCK_BYTE_SIZE   16
 `define NUM_KEYS          11
 `define NUM_ROUNDS        11
-`define BYTE_SIZE         8
+`define BYTE_SIZE         10
 `define ROW_SIZE          4
 `define COL_SIZE          4
 

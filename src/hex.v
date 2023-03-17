@@ -78,7 +78,7 @@ endfunction
  */
 function reg[`BYTE] byte_mult_byte_a(input reg ip_sel, input reg[`BYTE] byte_a, input reg[`BYTE] byte_b);
     begin
-        reg[9:0] result; 
+        reg[`BYTE] result; 
         result = byte_a * byte_b;
 
         // irreducible polynomial required
@@ -103,7 +103,7 @@ function reg[`BYTE] byte_mult_byte_a(input reg ip_sel, input reg[`BYTE] byte_a, 
             
         end
 
-        return result[7:0];
+        return result;
     end
 endfunction
 
