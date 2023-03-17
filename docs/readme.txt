@@ -7,20 +7,12 @@ Jordan Kieltyka
 
 Prerequisites: Icarus Verilog (iverilog) installed
 
-Part A & B:
+FULL AES:
     1) Navigate to the 'src' directory.
     2) To build, use command 'make aes' in the 'test' directory.
     3) Navigate to the 'test' directory.
     4) Ensure 'in.txt' is populated and in the 'test' directory.
     5) To perform a simulation, use command 'vcc aes.a' in the 'test' directory.
-    6) Output will be in 'out.txt' in the 'test' directory.
-
-BONUS:
-    1) Navigate to the 'src' directory.
-    2) To build, use command 'make aesfull' in the 'test' directory.
-    3) Navigate to the 'test' directory.
-    4) Ensure 'in.txt' is populated and in the 'test' directory.
-    5) To perform a simulation, use command 'vcc aes-full.a' in the 'test' directory.
     6) Output will be in 'out.txt' in the 'test' directory.
 
 The format for 'in.txt':
