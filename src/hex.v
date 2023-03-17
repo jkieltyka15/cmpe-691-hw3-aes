@@ -66,17 +66,14 @@ function reg[`BYTE] byte_xor_byte(input reg[`BYTE] byte_a, input reg[`BYTE] byte
 endfunction
 
 /**
- * Perform multiplication on two bytes when the second byte is equal
- * to or less than 3.
- * 
- * @param ip_sel - When one f(x) = x^8 + x^4 + x^3 + x + 1 is used.
-                   Otherwise f(x) = x^7 + x^5 + x^3 + 1 is used.
+ * Perform multiplication on two bytes.
+
  * @param byte_a - The first factor.
- * @param byte_b - The second factor that is equal to or less than 3.
+ * @param byte_b - The second factor.
  *
  * @return The result of byte_a multiplied by byte_b.
  */
-function reg[`BYTE] byte_mult_byte_a(input reg ip_sel, input reg[`BYTE] byte_a, input reg[`BYTE] byte_b);
+function reg[`BYTE] byte_mult_byte(input reg[`BYTE] byte_a, input reg[`BYTE] byte_b);
     begin
         reg[`BYTE] result; 
         result = byte_a * byte_b;

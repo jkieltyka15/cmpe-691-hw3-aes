@@ -212,28 +212,28 @@ module vtc_encryption_tb();
                 end
 
                 // calculate u0
-                plaintext[0][i] = byte_mult_byte_a(is_part_a, z[0], 2); 
-                plaintext[0][i] = byte_xor_byte(plaintext[0][i], byte_mult_byte_a(is_part_a, z[1], 3)); 
+                plaintext[0][i] = byte_mult_byte(z[0], 2); 
+                plaintext[0][i] = byte_xor_byte(plaintext[0][i], byte_mult_byte(z[1], 3)); 
                 plaintext[0][i] = byte_xor_byte(plaintext[0][i], z[2]); 
                 plaintext[0][i] = byte_xor_byte(plaintext[0][i], z[3]);
 
                 // calculate u1
                 plaintext[1][i] = z[0];
-                plaintext[1][i] = byte_xor_byte(plaintext[1][i], byte_mult_byte_a(is_part_a, z[1], 2));
-                plaintext[1][i] = byte_xor_byte(plaintext[1][i], byte_mult_byte_a(is_part_a, z[2], 3));
+                plaintext[1][i] = byte_xor_byte(plaintext[1][i], byte_mult_byte(z[1], 2));
+                plaintext[1][i] = byte_xor_byte(plaintext[1][i], byte_mult_byte(z[2], 3));
                 plaintext[1][i] = byte_xor_byte(plaintext[1][i], z[3]);
 
                 // calculate u2
                 plaintext[2][i] = z[0]; 
                 plaintext[2][i] = byte_xor_byte(plaintext[2][i], z[1]);
-                plaintext[2][i] = byte_xor_byte(plaintext[2][i], byte_mult_byte_a(is_part_a, z[2], 2));
-                plaintext[2][i] = byte_xor_byte(plaintext[2][i], byte_mult_byte_a(is_part_a, z[3], 3));
+                plaintext[2][i] = byte_xor_byte(plaintext[2][i], byte_mult_byte(z[2], 2));
+                plaintext[2][i] = byte_xor_byte(plaintext[2][i], byte_mult_byte(z[3], 3));
 
                 // calculate u3
-                plaintext[3][i] = byte_mult_byte_a(is_part_a, z[0], 3);
+                plaintext[3][i] = byte_mult_byte(z[0], 3);
                 plaintext[3][i] = byte_xor_byte(plaintext[3][i], z[1]); 
                 plaintext[3][i] = byte_xor_byte(plaintext[3][i], z[2]);
-                plaintext[3][i] = byte_xor_byte(plaintext[3][i], byte_mult_byte_a(is_part_a, z[3], 2));
+                plaintext[3][i] = byte_xor_byte(plaintext[3][i], byte_mult_byte(z[3], 2));
 
             end
 
