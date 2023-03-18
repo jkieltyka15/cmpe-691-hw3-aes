@@ -133,7 +133,7 @@ function reg[`BYTE] sbox(input reg[`BYTE] value);
             8'h54 : sbox_value = 8'h20;
             8'h55 : sbox_value = 8'hfc;
             8'h56 : sbox_value = 8'hb1;
-            8'h57 : sbox_value = 8'hb5;
+            8'h57 : sbox_value = 8'h5b;
             8'h58 : sbox_value = 8'h6a;
             8'h59 : sbox_value = 8'hcb;
             8'h5a : sbox_value = 8'hbe;

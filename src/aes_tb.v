@@ -89,22 +89,22 @@ module vtc_encryption_tb();
 //////////////////////////////////////////////////////////////////////////////////////////// KEY GENERATION
 
         // set RC values
-        rc[0] = 8'b00000000;
-        rc[1] = 8'b00000001;
-        rc[2] = 8'b00000010;
-        rc[3] = 8'b00000100;
-        rc[4] = 8'b00001000;
-        rc[5] = 8'b00010000;
-        rc[6] = 8'b00100000;
-        rc[7] = 8'b01000000;
-        rc[8] = 8'b10000000;
+        rc[0] = 10'b0000000000;
+        rc[1] = 10'b0000000001;
+        rc[2] = 10'b0000000010;
+        rc[3] = 10'b0000000100;
+        rc[4] = 10'b0000001000;
+        rc[5] = 10'b0000010000;
+        rc[6] = 10'b0000100000;
+        rc[7] = 10'b0001000000;
+        rc[8] = 10'b0010000000;
         if (1'h1 == is_part_a) begin
-            rc[9] = 8'b00011011;
-            rc[10] = 8'b00110110;
+            rc[9] = 10'b0000011011;
+            rc[10] = 10'b0000110110;
         end
         else begin
-            rc[9] = 8'b10101010;
-            rc[10] = 8'b11111110;
+            rc[9] = 10'b0010101001;
+            rc[10] =10'b0011111011;
         end
 
         // place the zeroeth key into w
@@ -216,24 +216,29 @@ module vtc_encryption_tb();
                 plaintext[0][i] = byte_xor_byte(plaintext[0][i], byte_mult_byte(z[1], 3)); 
                 plaintext[0][i] = byte_xor_byte(plaintext[0][i], z[2]); 
                 plaintext[0][i] = byte_xor_byte(plaintext[0][i], z[3]);
+                plaintext[0][i] = ip_op(is_part_a, plaintext[0][i]);
+                
 
                 // calculate u1
                 plaintext[1][i] = z[0];
                 plaintext[1][i] = byte_xor_byte(plaintext[1][i], byte_mult_byte(z[1], 2));
                 plaintext[1][i] = byte_xor_byte(plaintext[1][i], byte_mult_byte(z[2], 3));
                 plaintext[1][i] = byte_xor_byte(plaintext[1][i], z[3]);
+                plaintext[1][i] = ip_op(is_part_a, plaintext[1][i]);
 
                 // calculate u2
                 plaintext[2][i] = z[0]; 
                 plaintext[2][i] = byte_xor_byte(plaintext[2][i], z[1]);
                 plaintext[2][i] = byte_xor_byte(plaintext[2][i], byte_mult_byte(z[2], 2));
                 plaintext[2][i] = byte_xor_byte(plaintext[2][i], byte_mult_byte(z[3], 3));
+                plaintext[2][i] = ip_op(is_part_a, plaintext[2][i]);
 
                 // calculate u3
                 plaintext[3][i] = byte_mult_byte(z[0], 3);
                 plaintext[3][i] = byte_xor_byte(plaintext[3][i], z[1]); 
                 plaintext[3][i] = byte_xor_byte(plaintext[3][i], z[2]);
                 plaintext[3][i] = byte_xor_byte(plaintext[3][i], byte_mult_byte(z[3], 2));
+                plaintext[3][i] = ip_op(is_part_a, plaintext[3][i]);
 
             end
 

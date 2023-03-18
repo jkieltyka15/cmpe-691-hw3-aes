@@ -69,14 +69,51 @@ endfunction
  * Perform multiplication on two bytes.
 
  * @param byte_a - The first factor.
- * @param byte_b - The second factor.
+ * @param byte_b - The second factor that is no greater than 3.
  *
  * @return The result of byte_a multiplied by byte_b.
  */
 function reg[`BYTE] byte_mult_byte(input reg[`BYTE] byte_a, input reg[`BYTE] byte_b);
     begin
-        reg[`BYTE] result; 
-        result = byte_a * byte_b;
+        reg[`BYTE] result;
+        if (byte_b >= 10'h002) begin
+            result = byte_a * 10'h002;
+        end
+        if (byte_b == 10'h003) begin
+            result = byte_xor_byte(result, byte_a);
+        end
+        else begin
+            result = byte_a * byte_b;
+        end
+        
+        return result;
+    end
+endfunction
+
+function reg[`BYTE] ip_op(input reg ip_sel, input reg[`BYTE] byte_a);
+    begin
+        reg[`BYTE] result;
+
+        if (1'h1 == byte_a[8]) begin
+            if (1'h1 == ip_sel) begin
+                result = byte_xor_byte(byte_a, 10'b0100011011);
+            end
+            else begin
+                result = byte_xor_byte(byte_a, 10'b0110101001);
+            end
+        end
+        else if (1'h1 == byte_a[9]) begin
+            if (1'h1 == ip_sel) begin
+                result = byte_xor_byte(byte_a, 10'b1000110110);
+            end
+            else begin
+                result = byte_xor_byte(byte_a, 10'b1001010010);
+            end
+        end
+        else begin
+            result = byte_a;    
+        end
+
         return result;
     end
 endfunction
