@@ -83,6 +83,22 @@ module vtc_encryption_tb();
             end
         end
 
+        $write("key: ");
+        for (integer i = 0; `COL_SIZE > i; i++) begin
+            for (integer j = 0; `ROW_SIZE > j; j++) begin
+                    $write("%x", key_0[j][i][7:0]);
+            end
+        end
+        $write("\n");
+
+        $write("plaintext: ");
+        for (integer i = 0; `COL_SIZE > i; i++) begin
+            for (integer j = 0; `ROW_SIZE > j; j++) begin
+                    $write("%x", plaintext[j][i][7:0]);
+            end
+        end
+        $write("\n\n");
+
 //****************************************************************************************** AES BEGIN
 
 
@@ -154,6 +170,14 @@ module vtc_encryption_tb();
                 plaintext[i][j] = byte_xor_byte(plaintext[i][j], key[0][i][j]);
             end
         end
+
+        $write("round key: ");
+        for (integer i = 0; `COL_SIZE > i; i++) begin
+            for (integer j = 0; `ROW_SIZE > j; j++) begin
+                $write("%x", key[0][j][i][7:0]);
+            end
+        end
+        $write("\n");
 
         $write("key xor: ");
         for (integer i = 0; `COL_SIZE > i; i++) begin
@@ -257,6 +281,14 @@ module vtc_encryption_tb();
                 end
             end
 
+            $write("round key: ");
+            for (integer i = 0; `COL_SIZE > i; i++) begin
+                for (integer j = 0; `ROW_SIZE > j; j++) begin
+                    $write("%x", key[rnd][j][i][7:0]);
+                end
+            end
+            $write("\n");
+
             $write("key xor: ");
             for (integer i = 0; `COL_SIZE > i; i++) begin
                 for (integer j = 0; `ROW_SIZE > j; j++) begin
@@ -310,6 +342,14 @@ module vtc_encryption_tb();
             plaintext[i][j] = byte_xor_byte(plaintext[i][j], key[10][i][j]);
         end
     end
+
+    $write("round key: ");
+    for (integer i = 0; `COL_SIZE > i; i++) begin
+        for (integer j = 0; `ROW_SIZE > j; j++) begin
+            $write("%x", key[10][j][i][7:0]);
+        end
+    end
+    $write("\n");
 
     $write("key xor: ");
     for (integer i = 0; `COL_SIZE > i; i++) begin

@@ -20,6 +20,12 @@ function reg[`NIBBLE] ascii_to_hex(input reg[`BYTE] ascii);
     begin
         reg[`NIBBLE] hex;
         case(ascii)
+            "F" : hex[`NIBBLE] = 4'hf;
+            "E" : hex[`NIBBLE] = 4'he;
+            "D" : hex[`NIBBLE] = 4'hd;
+            "C" : hex[`NIBBLE] = 4'hc;
+            "B" : hex[`NIBBLE] = 4'hb;
+            "A" : hex[`NIBBLE] = 4'ha;
             "f" : hex[`NIBBLE] = 4'hf;
             "e" : hex[`NIBBLE] = 4'he;
             "d" : hex[`NIBBLE] = 4'hd;
